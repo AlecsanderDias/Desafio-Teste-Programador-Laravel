@@ -20,6 +20,10 @@ class Usuario extends Model
         'cargo'
     ];
 
+    protected $guard = [
+        'cargo'
+    ];
+
     public function tarefas() {
         return $this->hasMany(Tarefa::class);
     }
