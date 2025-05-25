@@ -15,7 +15,5 @@ class Tarefa extends Model
         'status',
     ];
 
-    protected $attributes = [
-        'status' => 0
-    ];
+    public $timestamps = false;
 }
