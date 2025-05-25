@@ -24,6 +24,8 @@ class Usuario extends Model
         'cargo'
     ];
 
+    public $timestamps = false;
+
     public function tarefas() {
         return $this->hasMany(Tarefa::class);
     }

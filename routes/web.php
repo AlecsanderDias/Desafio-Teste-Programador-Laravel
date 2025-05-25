@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TarefaController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return redirect()->route('usuario.create');
 });
 
-Route::resource('tarefa', TarefaController::class)->except(['edit', 'show']);
+Route::resource('usuario', UsuarioController::class)->only(['create', 'store']);
+Route::resource('tarefa', TarefaController::class)->except(['show']);
+Route::get('/login', [UsuarioController::class, 'logar'])->name('logar');
+Route::post('/login', [UsuarioController::class, 'login'])->name('login');
