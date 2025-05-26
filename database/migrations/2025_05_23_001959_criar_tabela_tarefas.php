@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Usuario;
+use App\Models\Usuer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('titulo', 30);
             $table->text('descricao');
             $table->integer('status');
-            $table->foreignIdFor(Usuario::class);
+            $table->foreignIdFor(User::class);
         });
     }
 
