@@ -1,29 +1,29 @@
 @extends('home')
 
-@section('titulo', "Suas Tarefas")
+@section('titulo', "Todas as Tarefas")
 
 @section('conteudo')
-    @if(auth()->user()->isAdmin)
-        <a class="align-self-start btn btn-primary mb-3" href="{{ route('admin') }}">Todas as Tarefas</a>
-    @endif
+    
     <div class="w-100">
         <table class="table table-striped pb-5">
             <thead>
                 <tr>
-                    <th scope="col">Nº</th>
+                    <th scope="col">Id</th>
                     <th scope="col">Título</th>
                     <th scope="col">Descrição</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Usuário Id</th>
                     <th scope="col">Ações</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($tarefas as $key => $tarefa)
+                @foreach($tarefas as $tarefa)
                 <tr>
-                <th scope="row">{{ $key+1 }}</th>
+                <th scope="row">{{ $tarefa->id }}</th>
                 <td>{{ $tarefa->titulo }}</td>
                 <td>{{ $tarefa->descricao }}</td>
                 <td>{{ Constants::Status[$tarefa->status] }}</td>
+                <td>{{ $tarefa->usuario_id }}</td>
                 <td class="d-flex">
                     <a class="px-2 btn btn-primary" href="{{ route('tarefa.edit', ['tarefa' => $tarefa->id]) }}">Editar</a>
                     <form class="px-2" action="{{ route('tarefa.destroy', $tarefa->id) }}" method="POST">
@@ -40,5 +40,5 @@
             {{ $tarefas->links() }}
         </div>
     </div>
-    <a class="align-self-start btn btn-primary" href="{{ route('tarefa.create') }}">Criar Tarefa</a>
+    <a class="align-self-start btn btn-primary " href="{{ route('tarefa.index') }}">Voltar</a>
 @endsection

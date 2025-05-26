@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('usuario.create');
+    return redirect()->route('login');
 });
-
-Route::resource('usuario', UsuarioController::class)->only(['create', 'store']);
-Route::resource('tarefa', TarefaController::class)->except(['show']);
-Route::get('/login', [UsuarioController::class, 'logar'])->name('logar');
-Route::post('/login', [UsuarioController::class, 'login'])->name('login');
+Route::post('/cadastrar', [UsuarioController::class, 'cadastrar'])->name('cadastrar');
+Route::get('/cadastro',[UsuarioController::class, 'cadastro'])->name('cadastro');
+Route::get('/login', [UsuarioController::class, 'logar'])->name('login');
+Route::post('/login', [UsuarioController::class, 'login']);
+Route::post('/logout', [UsuarioController::class, 'logout'])->middleware('auth')->name('logout');
+Route::resource('tarefa', TarefaController::class)->middleware('auth')->except(['show']);
+Route::get('/admin', [TarefaController::class, 'admin'])->middleware('isAdmin')->name('admin');
