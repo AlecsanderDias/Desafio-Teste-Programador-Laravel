@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class TarefaController extends Controller
 {
     public function index() {
-        $tarefas = Tarefa::where('usuario_id','=',auth()->user()->id)->paginate(2);
+        $tarefas = Tarefa::where('user_id','=',auth()->user()->id)->paginate(2);
         return view('tarefa.gerenciar', ['tarefas' => $tarefas]);
     }
 
@@ -21,13 +21,13 @@ class TarefaController extends Controller
 
     public function store(TarefaFormRequest $request) {
         $tarefa = new Tarefa($request->all());
-        $tarefa->usuario_id = auth()->user()->id;
+        $tarefa->user_id = auth()->user()->id;
         $tarefa->save();
         return redirect()->route('tarefa.index')->with(['success' => 'Tarefa criada com sucesso!']);
     }
 
     public function edit($id) {
-        if(auth()->user()->id !== Tarefa::find($id)->usuario_id && !auth()->user()->isAdmin) return redirect()->route('tarefa.index');
+        if(auth()->user()->id !== Tarefa::find($id)->user_id && !auth()->user()->isAdmin) return redirect()->route('tarefa.index');
         $isCreate = false;
         $tarefa = Tarefa::find($id);
         return view('tarefa.formulario', ['isCreate' => $isCreate, 'tarefa' => $tarefa]);

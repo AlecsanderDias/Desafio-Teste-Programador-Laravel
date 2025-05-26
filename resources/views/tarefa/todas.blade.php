@@ -23,7 +23,7 @@
                 <td>{{ $tarefa->titulo }}</td>
                 <td>{{ $tarefa->descricao }}</td>
                 <td>{{ Constants::Status[$tarefa->status] }}</td>
-                <td>{{ $tarefa->usuario_id }}</td>
+                <td>{{ $tarefa->user_id }}</td>
                 <td class="d-flex">
                     <a class="px-2 btn btn-primary" href="{{ route('tarefa.edit', ['tarefa' => $tarefa->id]) }}">Editar</a>
                     <form class="px-2" action="{{ route('tarefa.destroy', $tarefa->id) }}" method="POST">
