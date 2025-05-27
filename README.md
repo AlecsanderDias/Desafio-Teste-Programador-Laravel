@@ -69,7 +69,11 @@ Para testar este repositório siga os seguintes passos:
     ```
     php artisan migrate
     ``` 
-7. Enfim rodar o último comando para iniciar o projeto.
+7. Utilize este comando para popular o banco com valores fictícios;
+    ```
+    php artisan db:seed
+    ```
+8. Enfim rodar o último comando para iniciar o projeto.
     ```
     php artisan serve
     ```

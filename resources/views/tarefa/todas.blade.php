@@ -12,7 +12,7 @@
         <div class="form-group">
             <label for="statusAdm">Status: </label>
             <select id="statusAdm" name="statusAdm">
-                <option value="-1"> - </option>
+                <option value="-1">Todos</option>
                 @for ($i=0;$i<3;$i++)
                     <option value="{{$i}}" @if($statusAdm == $i) selected @endif>
                         {{ Constants::Status[$i] }}
