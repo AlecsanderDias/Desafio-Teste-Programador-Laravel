@@ -48,9 +48,7 @@ As tecnologias e versões que utilizei para este teste são as seguintes:
 
 ## Meus resultados
 
-De todos os pedidos feitos para este projeto, somente duas funcionalidades não foram implementadas ainda, que fazem parte da seção de extras:
-- Busca de tarefas pelo título.
-- Filtro por status da tarefa.
+Consegui completar todos os requisitos que foram pedidos assim como os extras. Depois de muito esforço consegui completar essa tarefa, que olhando pra trás me ajudou a me aventurar com uma versão mais antiga do Laravel e especialmente como é importante saber ler a documentação das tecnologias que utilizamos, assim como os fóruns e as dúvidas que são respondidas pela comunidade.
 
 ## Instruções para testar o projeto
 
