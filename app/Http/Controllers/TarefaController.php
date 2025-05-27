@@ -17,9 +17,9 @@ class TarefaController extends Controller
         if($titulo != "" and $titulo != null) $filtros[] = ['titulo','LIKE', '%'.$titulo.'%'];
         if($status >= 0 and $status != null) $filtros[] = ['status', '=', $status];
         if(count($filtros) != 0) {
-            $tarefas = Tarefa::where('user_id','=',auth()->user()->id)->where($filtros)->paginate($pagination);
+            $tarefas = Tarefa::where('user_id','=',auth()->user()->id)->where($filtros)->paginate(env('USER_PAGINATION', $pagination));
         } else {
-            $tarefas = Tarefa::where('user_id','=',auth()->user()->id)->paginate($pagination);
+            $tarefas = Tarefa::where('user_id','=',auth()->user()->id)->paginate(env('USER_PAGINATION', $pagination));
         }
         return view('tarefa.gerenciar', ['tarefas' => $tarefas, 'titulo' => $titulo, 'status' => $status]);
     }
@@ -58,15 +58,15 @@ class TarefaController extends Controller
         $titulo = session('tituloAdm');
         $status = session('statusAdm');
         $usuarioId = session('usuarioId');
-        $pagination = 2;
+        $pagination = 5;
         $filtros = [];
         if($titulo != "" and $titulo != null) $filtros[] = ['titulo','LIKE', '%'.$titulo.'%'];
         if($status >= 0 and $status != null) $filtros[] = ['status', '=', $status];
         if($usuarioId > 0 and $usuarioId != null) $filtros[] = ['user_id', '=', $usuarioId];;
         if(count($filtros) != 0) {
-            $tarefas = Tarefa::where($filtros)->paginate($pagination);
+            $tarefas = Tarefa::where($filtros)->paginate(env('ADMIN_PAGINATION', $pagination));
         } else {
-            $tarefas = Tarefa::paginate($pagination);
+            $tarefas = Tarefa::paginate(env('ADMIN_PAGINATION', $pagination));
         }
         return view('tarefa.todas', ['tarefas' => $tarefas, 'tituloAdm' => $titulo, 'statusAdm' => $status, 'usuarioId' => $usuarioId]);
     }
