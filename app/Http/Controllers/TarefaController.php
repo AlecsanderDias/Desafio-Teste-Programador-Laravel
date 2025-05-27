@@ -10,8 +10,18 @@ use Illuminate\Support\Facades\Auth;
 class TarefaController extends Controller
 {
     public function index() {
-        $tarefas = Tarefa::where('user_id','=',auth()->user()->id)->paginate(2);
-        return view('tarefa.gerenciar', ['tarefas' => $tarefas]);
+        $titulo = session('titulo');
+        $status = session('status');
+        $pagination = 2;
+        $filtros = [];
+        if($titulo != "" and $titulo != null) $filtros[] = ['titulo','LIKE', '%'.$titulo.'%'];
+        if($status >= 0 and $status != null) $filtros[] = ['status', '=', $status];
+        if(count($filtros) != 0) {
+            $tarefas = Tarefa::where('user_id','=',auth()->user()->id)->where($filtros)->paginate($pagination);
+        } else {
+            $tarefas = Tarefa::where('user_id','=',auth()->user()->id)->paginate($pagination);
+        }
+        return view('tarefa.gerenciar', ['tarefas' => $tarefas, 'titulo' => $titulo, 'status' => $status]);
     }
 
     public function create() {
@@ -45,7 +55,32 @@ class TarefaController extends Controller
     }
 
     public function admin() {
-        $tarefas = Tarefa::paginate(2);
-        return view('tarefa.todas', ['tarefas' => $tarefas]);
+        $titulo = session('tituloAdm');
+        $status = session('statusAdm');
+        $usuarioId = session('usuarioId');
+        $pagination = 2;
+        $filtros = [];
+        if($titulo != "" and $titulo != null) $filtros[] = ['titulo','LIKE', '%'.$titulo.'%'];
+        if($status >= 0 and $status != null) $filtros[] = ['status', '=', $status];
+        if($usuarioId > 0 and $usuarioId != null) $filtros[] = ['user_id', '=', $usuarioId];;
+        if(count($filtros) != 0) {
+            $tarefas = Tarefa::where($filtros)->paginate($pagination);
+        } else {
+            $tarefas = Tarefa::paginate($pagination);
+        }
+        return view('tarefa.todas', ['tarefas' => $tarefas, 'tituloAdm' => $titulo, 'statusAdm' => $status, 'usuarioId' => $usuarioId]);
+    }
+
+    public function filtro(Request $request) {
+        session(['status' => $request->input('status')]);
+        session(['titulo' => $request->input('titulo')]);
+        return redirect()->route('tarefa.index');
+    }
+
+    public function filtroAdmin(Request $request) {
+        session(['statusAdm' => $request->input('statusAdm')]);
+        session(['tituloAdm' => $request->input('tituloAdm')]);
+        session(['usuarioId' => $request->input('usuarioId')]);
+        return redirect()->route('admin');
     }
 }
