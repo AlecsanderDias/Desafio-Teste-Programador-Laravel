@@ -26,7 +26,7 @@ class CadastroFormRequest extends FormRequest
         return [
             'name' => 'required|min:5|max:30',
             'email' => 'required|unique:users,email|min:5|max:30',
-            'password' => 'required|min:5|max:30'
+            'password' => 'required|min:5|max:30|confirmed'
         ];
     }
 
@@ -42,6 +42,7 @@ class CadastroFormRequest extends FormRequest
             'password.required' => 'O campo senha é obrigatório',
             'password.min' => 'O campo senha precisa de pelo menos 5 caracteres',
             'password.max' => 'O campo senha pode ter no máximo 30 caracteres',
+            'password.confirmed' => 'A senha confirmada está incorreta'
         ];
     }
 }

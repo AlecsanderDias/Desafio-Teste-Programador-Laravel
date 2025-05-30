@@ -6,6 +6,7 @@ use App\Models\Tarefa;
 use App\Http\Requests\TarefaFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TarefaController extends Controller
 {
@@ -57,18 +58,18 @@ class TarefaController extends Controller
     public function admin() {
         $titulo = session('tituloAdm');
         $status = session('statusAdm');
-        $usuarioId = session('usuarioId');
+        $nome = session('nome');
+        // $usuarioId = session('usuarioId');
         $pagination = 5;
         $filtros = [];
         if($titulo != "" and $titulo != null) $filtros[] = ['titulo','LIKE', '%'.$titulo.'%'];
         if($status >= 0 and $status != null) $filtros[] = ['status', '=', $status];
-        if($usuarioId > 0 and $usuarioId != null) $filtros[] = ['user_id', '=', $usuarioId];;
-        if(count($filtros) != 0) {
-            $tarefas = Tarefa::where($filtros)->paginate(env('ADMIN_PAGINATION', $pagination));
-        } else {
-            $tarefas = Tarefa::paginate(env('ADMIN_PAGINATION', $pagination));
-        }
-        return view('tarefa.todas', ['tarefas' => $tarefas, 'tituloAdm' => $titulo, 'statusAdm' => $status, 'usuarioId' => $usuarioId]);
+        if($nome != "" and $nome != null) $filtros[] = ['users.name','LIKE', '%'.$nome.'%'];
+        $tarefas = Tarefa::join('users','users.id','=','tarefas.user_id')
+                ->select('tarefas.*','users.name')
+                ->where($filtros)
+                ->paginate(env('ADMIN_PAGINATION', $pagination));
+        return view('tarefa.todas', ['tarefas' => $tarefas, 'tituloAdm' => $titulo, 'statusAdm' => $status, 'nome' => $nome]);
     }
 
     public function filtro(Request $request) {
@@ -80,7 +81,8 @@ class TarefaController extends Controller
     public function filtroAdmin(Request $request) {
         session(['statusAdm' => $request->input('statusAdm')]);
         session(['tituloAdm' => $request->input('tituloAdm')]);
-        session(['usuarioId' => $request->input('usuarioId')]);
+        // session(['usuarioId' => $request->input('usuarioId')]);
+        session(['nome' => $request->input('nome')]);
         return redirect()->route('admin');
     }
 }
