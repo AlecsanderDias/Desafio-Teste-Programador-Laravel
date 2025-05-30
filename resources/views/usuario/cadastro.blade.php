@@ -17,6 +17,10 @@
             <label for="password">Senha (máximo 30 caracteres): </label>
             <input class="form-control" type="password" id="password" name="password" maxlength="30">
         </div>
+        <div class="form-group">
+            <label for="password_confirmation">Confirme a Senha: </label>
+            <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" maxlength="30">
+        </div>
         <button class="btn btn-primary" type="submit">Criar</button>
     </form>
     <p>Voltar para o <a href="{{  route('login') }}">login</a></p>
