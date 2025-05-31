@@ -28,3 +28,4 @@ Route::get('/tarefa', [TarefaController::class, 'index'])->middleware('auth')->n
 Route::get('/admin', [TarefaController::class, 'admin'])->middleware('isAdmin')->name('admin');
 Route::post('/filtroAdm', [TarefaController::class, 'filtroAdmin'])->middleware('isAdmin')->name('filtroAdmin');
 Route::post('/filtro', [TarefaController::class, 'filtro'])->name('filtro');
+Route::get('/admin/user', [UsuarioController::class, 'admin'])->middleware('isAdmin')->name('admin.usuarios');

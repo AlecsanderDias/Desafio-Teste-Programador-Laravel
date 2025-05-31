@@ -44,4 +44,10 @@ class UsuarioController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('login');
     }
+
+    public function admin() {
+        $adminId = auth()->user()->id;
+        $usuarios = User::where('id','<>',$adminId)->get();
+        return view('usuario.todos',['usuarios' => $usuarios]);
+    }
 }
