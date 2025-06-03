@@ -22,9 +22,9 @@
                     <td>{{ $usuario->email }}</td>
                     <td>
                         @if ($usuario->deleted_at != null)
-                            <p class="btn btn-success">Sim</p>
+                            <p class="btn btn-success disabled" >Sim</p>
                         @else  
-                            <p class="btn btn-danger">Não</p>
+                            <p class="btn btn-danger disabled">Não</p>
                         @endif
                     </td>
                     <td class="d-flex">
@@ -39,5 +39,6 @@
                 @endforeach
             </tbody>
         </table>
+        <a class="btn btn-primary" href="{{ route('usuario.create') }}">Novo Usuário</a>
     </div>
 @endsection
