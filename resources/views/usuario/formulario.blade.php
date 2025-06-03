@@ -1,10 +1,14 @@
 @extends('home')
 
-@section('titulo', "Cadastro")
+@section('titulo', '??? Usuário')
 
 @section('conteudo')
-    <form class="py-3" action="{{ route('cadastrar') }}" method="POST">
+    <form class="py-3" action="{{ isset($tarefa) ? route('usuario.update', $tarefa->id) : route('tarefa.store') }}" method="POST">
         @csrf
+        @if(isset($tarefa))
+            @method('PUT')
+        @endif
+
         <div class="form-group">
             <label for="name">Nome (máximo 30 caracteres): </label>
             <input class="form-control" type="text" id="name" name="name" maxlength="30">
@@ -22,6 +26,7 @@
             <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" maxlength="30">
         </div>
         <button class="btn btn-primary" type="submit">Criar</button>
+        <button class="btn btn-primary" type="submit">{{isset($tarefa) ? "Salvar" : "Criar"}}</button>
     </form>
-    <a href="{{  route('usuario.index') }}">Voltar</a>
+    <a href="{{  route('usuario.index') }}">Usuários</a>
 @endsection

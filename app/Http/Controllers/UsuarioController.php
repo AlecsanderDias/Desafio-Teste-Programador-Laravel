@@ -11,12 +11,14 @@ use App\Http\Requests\CadastroFormRequest;
 
 class UsuarioController extends Controller
 {
-    public function cadastro() {
-        if(!Auth::guest()) return redirect()->route('tarefa.index');
+    public function cadastro()
+    {
+        if (!Auth::guest()) return redirect()->route('tarefa.index');
         return view('usuario.cadastro');
     }
 
-    public function cadastrar(CadastroFormRequest $request) {
+    public function cadastrar(CadastroFormRequest $request)
+    {
         $usuario = new User($request->all());
         $usuario->password = Hash::make($request->password);
         $usuario->isAdmin = false;
@@ -25,29 +27,58 @@ class UsuarioController extends Controller
         return redirect()->route('tarefa.index')->with(['success' => 'Bem Vindo Ao Sistema!']);
     }
 
-    public function logar(Request $request) {
-        if(!Auth::guest()) return redirect()->route('tarefa.index');
+    public function logar(Request $request)
+    {
+        if (!Auth::guest()) return redirect()->route('tarefa.index');
         return view('usuario.login');
     }
 
-    public function login(LoginFormRequest $request) {
-        $usuario = $request->only(['email','password']);
-        if(Auth::attempt($usuario)) {
+    public function login(LoginFormRequest $request)
+    {
+        $usuario = $request->only(['email', 'password']);
+        if (Auth::attempt($usuario)) {
             return redirect()->route('tarefa.index')->with(['success' => 'Bem Vindo Novamente Ao Sistema!']);
         }
         return redirect()->route('login')->withErrors('Email e/ou senha incorretos!');
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login');
     }
 
-    public function admin() {
+    public function index()
+    {
         $adminId = auth()->user()->id;
-        $usuarios = User::where('id','<>',$adminId)->get();
-        return view('usuario.todos',['usuarios' => $usuarios]);
+        $usuarios = User::withTrashed()->where('id', '<>', $adminId)->get();
+        return view('usuario.todos', ['usuarios' => $usuarios]);
+    }
+
+    public function create()
+    {
+        dd("Criar Usuário");
+    }
+
+    public function store()
+    {
+        dd("Armazenar Usuário");
+    }
+
+    public function edit(Request $request)
+    {
+        dd("Editar Usuário", $request->usuario);
+    }
+
+    public function update(Request $request)
+    {
+        dd("Atualizar Usuário", $request->usuario);
+    }
+
+    public function destroy($id)
+    {
+        dd("Deletar Usuário", $id);
     }
 }
