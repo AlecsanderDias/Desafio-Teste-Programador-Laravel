@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LoginFormRequest;
 use App\Http\Requests\CadastroFormRequest;
+use App\Http\Requests\UsuarioFormRequest;
 
 class UsuarioController extends Controller
 {
@@ -21,7 +22,7 @@ class UsuarioController extends Controller
     {
         $usuario = new User($request->all());
         $usuario->password = Hash::make($request->password);
-        $usuario->isAdmin = false;
+        // $usuario->isAdmin = false;
         $usuario->save();
         Auth::login($usuario);
         return redirect()->route('tarefa.index')->with(['success' => 'Bem Vindo Ao Sistema!']);
@@ -59,17 +60,23 @@ class UsuarioController extends Controller
 
     public function create()
     {
-        dd("Criar Usuário");
+        return view('usuario.gerenciar');
     }
 
-    public function store()
+    public function store(UsuarioFormRequest $request)
     {
-        dd("Armazenar Usuário");
+        $novoUsuario = new User($request->all());
+        $novoUsuario->password = Hash::make($request->password);
+        $novoUsuario->isAdmin = (bool) $request->role;
+        $novoUsuario->save();
+        return redirect()->route('usuario.index')->with(['success' => "Novo usuário cadastrado no sistema"]);
     }
 
-    public function edit(Request $request)
+    public function edit($id)
     {
-        dd("Editar Usuário", $request->usuario);
+        $user = User::find($id);
+        dd("Editar Usuário", $user);
+        return view('usuario.gerenciar',['user' => $user]);
     }
 
     public function update(Request $request)
@@ -79,6 +86,7 @@ class UsuarioController extends Controller
 
     public function destroy($id)
     {
+        User::find($id)->delete();
         dd("Deletar Usuário", $id);
     }
 }
