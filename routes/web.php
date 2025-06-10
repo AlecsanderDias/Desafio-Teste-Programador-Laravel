@@ -22,8 +22,8 @@ Route::get('/', function () {
 // Login / Cadastro
 Route::post('/cadastrar', [UsuarioController::class, 'cadastrar'])->name('cadastrar');
 Route::get('/cadastro',[UsuarioController::class, 'cadastro'])->name('cadastro');
-Route::get('/login', [UsuarioController::class, 'logar'])->name('login');
-Route::post('/login', [UsuarioController::class, 'login']);
+Route::get('/login', [UsuarioController::class, 'login'])->name('login');
+Route::post('/logar', [UsuarioController::class, 'logar'])->name('logar');
 Route::post('/logout', [UsuarioController::class, 'logout'])->middleware('auth')->name('logout');
 
 // Tarefas
