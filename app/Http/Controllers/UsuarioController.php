@@ -28,20 +28,20 @@ class UsuarioController extends Controller
         // $usuario->isAdmin = false;
         $usuario->save();
         Auth::login($usuario);
-        return redirect()->route('tarefa.index')->with(['success' => 'Bem Vindo Ao Sistema!']);
+        return redirect(route('tarefa.index'), 201)->with(['success' => 'Bem Vindo Ao Sistema!']);
     }
 
-    public function logar()
+    public function login()
     {
         if (!Auth::guest()) return redirect()->route('tarefa.index');
         return view('usuario.login');
     }
 
-    public function login(LoginFormRequest $request)
+    public function logar(LoginFormRequest $request)
     {
         $usuario = $request->only(['email', 'password']);
         if (Auth::attempt($usuario)) {
-            return redirect()->route('tarefa.index')->with(['success' => 'Bem Vindo Novamente Ao Sistema!']);
+            return redirect(route('tarefa.index'), 200)->with(['success' => 'Bem Vindo Novamente Ao Sistema!']);
         }
         return redirect()->route('login')->withErrors('Email e/ou senha incorretos!');
     }
@@ -72,7 +72,7 @@ class UsuarioController extends Controller
         $novoUsuario->password = Hash::make($request->password);
         $novoUsuario->isAdmin = $request->role;
         $novoUsuario->save();
-        return redirect()->route('usuario.index')->with(['success' => "Novo usuário cadastrado no sistema"]);
+        return redirect(route('usuario.index'),201)->with(['success' => "Novo usuário cadastrado no sistema"]);
     }
 
     public function edit($id)
